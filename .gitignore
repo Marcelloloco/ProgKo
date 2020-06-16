@@ -1,0 +1,4 @@
+out/*.jpeg
+out/*.png
+
+!out/hsv/
