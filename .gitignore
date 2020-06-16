@@ -2,4 +2,5 @@ out/greyscale/*.jpg
 out/greyscale/*.jpeg
 out/greyscale/*.png
 
-!out/hsv/
+!out/hsv
+!out/greyscale
