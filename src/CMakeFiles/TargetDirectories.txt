@@ -1,0 +1,3 @@
+/home/marcel/Documents/HTW/ProgKo/Abgabe/ProgKo/src/CMakeFiles/rebuild_cache.dir
+/home/marcel/Documents/HTW/ProgKo/Abgabe/ProgKo/src/CMakeFiles/Main.dir
+/home/marcel/Documents/HTW/ProgKo/Abgabe/ProgKo/src/CMakeFiles/edit_cache.dir

@@ -1,0 +1,15 @@
+/out/greyscale/*.jpg
+/out/greyscale/*.jpeg
+/out/greyscale/*.png
+
+/out/emboss/*.jpg
+/out/emboss/*.jpeg
+/out/emboss/*.png
+
+/out/hsv/*.jpg
+/out/hsv/*.jpeg
+/out/hsv/*.png
+
+!out/emboss/.gitkeep
+!out/greyscale/.gitkeep 
+!out/hsv/.gitkeep 
