@@ -39,7 +39,7 @@ int main(int argc, char const *argv[])
             return -1;
         }
         Mat gray_image = applyGreyscale(image);
-        imwrite( "../out/" + inputs[i], gray_image );
+        imwrite( "../out/greyscale/" + inputs[i], gray_image );
         //std::cout << inputs[i] << std::endl;
         imwrite( "../out/hsv/" + inputs[i], convertBGR2HSV(image) );
         namedWindow(inputs[i], WINDOW_AUTOSIZE );
