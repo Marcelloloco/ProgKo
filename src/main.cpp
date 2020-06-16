@@ -53,6 +53,7 @@ int main(int argc, char const *argv[])
 
 Mat applyGreyscale(Mat image)
 {
+    //initializing a zero Mat array from the input image
     Mat new_image = Mat::zeros( image.size(), image.type() );
 
     for( int y = 0; y < image.rows; y++ ) {
