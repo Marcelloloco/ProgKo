@@ -55,13 +55,16 @@ int main(int argc, char const *argv[])
         }
 
         std::cout << "File: " << inputs[i] << std::endl;
-        Mat grey_image;
+
+        Mat grey_image = Mat::zeros( image.size(), image.type() );;
         cvtColor(image, grey_image, COLOR_BGR2GRAY);
         imwrite( "../out/greyscale/" + inputs[i], grey_image);
-        Mat hsv_image;
+
+        Mat hsv_image = Mat::zeros( image.size(), image.type() );;
         cvtColor(image, hsv_image, COLOR_BGR2HSV);
         imwrite( "../out/hsv/" + inputs[i], hsv_image);
-        imwrite( "../out/emboss/" + inputs[i], applyEmbossFilter(image));
+
+        //imwrite( "../out/emboss/" + inputs[i], applyEmbossFilter(image));
         std::cout << "saved" << std::endl;
     }
 
