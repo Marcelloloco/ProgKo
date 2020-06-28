@@ -11,6 +11,8 @@ stdio.h
 -
 opencv2/opencv.hpp
 -
+opencv2/imgproc/imgproc.hpp
+-
 string
 -
 fstream
@@ -861,6 +863,10 @@ opencv2/core.hpp
 /usr/local/include/opencv4/opencv2/imgproc.hpp
 opencv2/core.hpp
 /usr/local/include/opencv4/opencv2/opencv2/core.hpp
+
+/usr/local/include/opencv4/opencv2/imgproc/imgproc.hpp
+opencv2/imgproc.hpp
+/usr/local/include/opencv4/opencv2/imgproc/opencv2/imgproc.hpp
 
 /usr/local/include/opencv4/opencv2/ml.hpp
 opencv2/core.hpp
