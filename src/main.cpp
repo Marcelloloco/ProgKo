@@ -2,6 +2,7 @@
 #include<opencv2/opencv.hpp>
 #include<string>
 #include<fstream>
+#include<omp.h>
 
 using namespace cv;
 
@@ -22,10 +23,9 @@ int filter[filter_width][filter_height] =
 
 int main(int argc, char const *argv[])
 {
-    
     std::string inputs[15];//magic number should be removed in future
     std::ifstream file("../img/img_names.txt");
-
+    
     if (file.is_open()) 
     {
         int index = 0;
@@ -56,10 +56,6 @@ int main(int argc, char const *argv[])
         imwrite( "../out/emboss/" + inputs[i], applyEmbossFilter(image));
         std::cout << "saved" << std::endl;
 
-        //Following lines are for displaying images
-        //namedWindow(inputs[i], WINDOW_AUTOSIZE );
-        //imshow(inputs[i], img);
-        //waitKey(0);
     }
 
     return 0;
@@ -70,6 +66,7 @@ Mat applyGreyscale(Mat image)
     //initializing a zero Mat array from the input image
     Mat new_image = Mat::zeros( image.size(), image.type() );
 
+    #pragma omp parallel for
     for(int y = 0; y < image.rows; y++) 
     {
         for(int x = 0; x < image.cols; x++) 
@@ -81,7 +78,7 @@ Mat applyGreyscale(Mat image)
             }
         }
     }
-
+    
     return new_image;
 }
 
@@ -90,6 +87,7 @@ Mat convertBGR2HSV(Mat image)
     //initializing a zero Mat array from the input image
     Mat new_image = Mat::zeros( image.size(), image.type());
 
+    #pragma omp parallel for
     for(int y = 0; y < image.rows; y++) 
     {
         for(int x = 0; x < image.cols; x++) 
@@ -151,6 +149,7 @@ Mat applyEmbossFilter(Mat image)
     //initializing a zero Mat array from the input image
     Mat new_image = Mat::zeros( image.size(), image.type() );
 
+    #pragma omp parallel for
     for(int y = 0; y < image.rows; y++) 
     {
         for(int x = 0; x < image.cols; x++) 
