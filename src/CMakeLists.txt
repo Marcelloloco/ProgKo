@@ -1,9 +1,17 @@
 cmake_minimum_required(VERSION 2.8)
 project( IMAGE )
 find_package( OpenCV REQUIRED )
+
 find_package(OpenMP)
 add_executable( Main main.cpp )
 target_link_libraries( Main ${OpenCV_LIBS} )
 if(OpenMP_FOUND)
     target_link_libraries(Main OpenMP::OpenMP_CXX)
 endif()
+
+find_package(MPI REQUIRED) 
+include_directories(SYSTEM ${MPI_INCLUDE_PATH})
+SET(CMAKE_C_COMPILER mpicc)
+SET(CMAKE_CXX_COMPILER mpicxx)
+target_link_libraries(Main ${MPI_C_LIBRARIES})
+target_link_libraries( Main ${OpenCV_LIBS} )

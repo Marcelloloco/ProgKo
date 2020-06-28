@@ -1,3 +1,6 @@
+/src/CMakeFiles/*
+/src/CMakeFiles/Main.dir/*.make
+
 /out/greyscale/*.jpg
 /out/greyscale/*.jpeg
 /out/greyscale/*.png
