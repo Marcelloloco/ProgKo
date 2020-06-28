@@ -3,8 +3,10 @@
 #include<string>
 #include<fstream>
 #include<omp.h>
+#include<chrono>
 
 using namespace cv;
+using namespace std::chrono;
 
 //function declaration
 Mat applyGreyscale(Mat image);
@@ -38,6 +40,9 @@ int main(int argc, char const *argv[])
     }
     else std::cout << "Unable to open the file";
 
+    //start calculation for duration
+    auto start = high_resolution_clock::now();
+
     int input_size = sizeof(inputs)/sizeof(inputs[0]);
 
     for (size_t i = 0; i < input_size; i++)
@@ -57,6 +62,11 @@ int main(int argc, char const *argv[])
         std::cout << "saved" << std::endl;
 
     }
+
+    //stop calculation for duration
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stop - start); 
+    std::cout << "DURATION: " << duration.count() << std::endl;
 
     return 0;
 }
