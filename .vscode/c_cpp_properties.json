@@ -4,7 +4,8 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/usr/local/include/**"
+                "/usr/local/include/**",
+                "/usr/lib/x86_64-linux-gnu/openmpi/include/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

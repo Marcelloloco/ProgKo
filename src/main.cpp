@@ -2,8 +2,11 @@
 #include<opencv2/opencv.hpp>
 #include<string>
 #include<fstream>
+#include<mpi.h>
+#include<chrono>
 
 using namespace cv;
+using namespace std::chrono;
 
 //function declaration
 Mat applyGreyscale(Mat image);
@@ -20,12 +23,17 @@ int filter[filter_width][filter_height] =
     0, 1, 1
 };
 
-int main(int argc, char const *argv[])
+int main(int argc, char *argv[])
 {
-    
-    std::string inputs[15];//magic number should be removed in future
-    std::ifstream file("../img/img_names.txt");
+    //number of processes
+    int size;
+    int rank;
 
+    std::string inputs[15];//magic number should be removed in future
+    int indices[15] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14};
+    int partBuffer[4];
+
+    std::ifstream file("../img/img_names.txt");
     if (file.is_open()) 
     {
         int index = 0;
@@ -38,29 +46,49 @@ int main(int argc, char const *argv[])
     }
     else std::cout << "Unable to open the file";
 
-    int input_size = sizeof(inputs)/sizeof(inputs[0]);
+    //start calculation for duration
+    auto start = high_resolution_clock::now();
 
-    for (size_t i = 0; i < input_size; i++)
+    MPI_Init(&argc, &argv);
+
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    
+    MPI_Barrier(MPI_COMM_WORLD);
+    MPI_Scatter(&indices, 5, MPI_INT, &partBuffer, 5, MPI_INT, 0, MPI_COMM_WORLD);
+
+    int input_size = sizeof(partBuffer)/sizeof(partBuffer[0]);
+    int workload[input_size];
+    //initialization of workload buffer because of a bug
+    for (size_t i = 0; i <= input_size; i++)
     {
+        workload[i] = partBuffer[i];
+    }
+
+    for (size_t i = 0; i <= input_size; i++)
+    {
+        int index = workload[i];
         Mat image;
-        image = imread("../img/" + inputs[i], IMREAD_COLOR);
+        image = imread("../img/" + inputs[index], IMREAD_COLOR);
         if ( !image.data )
         {
             printf("No image data \n");
             return -1;
         }
 
-        std::cout << "File: " << inputs[i] << std::endl;
-        imwrite( "../out/greyscale/" + inputs[i], applyGreyscale(image));
-        imwrite( "../out/hsv/" + inputs[i], convertBGR2HSV(image));
-        imwrite( "../out/emboss/" + inputs[i], applyEmbossFilter(image));
+        std::cout << "rank: " << rank << " index: " << index  << " File: " << inputs[index] << std::endl;
+        imwrite( "../out/greyscale/" + inputs[index], applyGreyscale(image));
+        imwrite( "../out/hsv/" + inputs[index], convertBGR2HSV(image));
+        imwrite( "../out/emboss/" + inputs[index], applyEmbossFilter(image));
         std::cout << "saved" << std::endl;
-
-        //Following lines are for displaying images
-        //namedWindow(inputs[i], WINDOW_AUTOSIZE );
-        //imshow(inputs[i], img);
-        //waitKey(0);
     }
+
+    MPI_Finalize();
+
+    //stop calculation for duration
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(stop - start); 
+    std::cout << "DURATION: " << duration.count() << std::endl;
 
     return 0;
 }
