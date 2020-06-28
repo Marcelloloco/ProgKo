@@ -58,7 +58,10 @@ int main(int argc, char const *argv[])
         std::cout << "File: " << inputs[i] << std::endl;
         imwrite( "../out/greyscale/" + inputs[i], applyGreyscale(image));
         imwrite( "../out/hsv/" + inputs[i], convertBGR2HSV(image));
-        imwrite( "../out/emboss/" + inputs[i], applyEmbossFilter(image));
+
+        //necessary to escape segmentation fault
+        Mat clone = image.clone();
+        imwrite( "../out/emboss/" + inputs[i], applyEmbossFilter(clone));
         std::cout << "saved" << std::endl;
 
     }
