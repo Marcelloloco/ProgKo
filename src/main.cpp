@@ -28,6 +28,8 @@ int main(int argc, char const *argv[])
     std::string inputs[15];//magic number should be removed in future
     std::ifstream file("../img/img_names.txt");
     
+    omp_set_num_threads(6);
+
     if (file.is_open()) 
     {
         int index = 0;
